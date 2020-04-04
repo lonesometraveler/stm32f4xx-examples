@@ -1,0 +1,29 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "cortex-debug",
+            "request": "launch",
+            "name": "Debug (J-Link)",
+            "cwd": "${workspaceRoot}",
+            // "executable": "./target/thumbv7em-none-eabihf/debug/f429-examples",
+            "executable": "./target/thumbv7em-none-eabihf/debug/examples/timer_interrupt_1",
+            "servertype": "jlink",
+            "device": "STM32F429ZI",
+            "interface": "swd",
+            "serialNumber": "",
+            "preLaunchTask": "cargo build --examples",
+            "runToMain": true,
+            "svdFile": "${workspaceRoot}/.vscode/STM32F429.svd",
+            "swoConfig": {
+                "enabled": true,
+                "cpuFrequency": 8000000,
+                "swoFrequency": 2000000,
+                "source": "probe",
+                "decoders": [
+                    { "type": "console", "label": "ITM", "port": 0 }
+                ]
+            }
+        },
+    ]
+}
