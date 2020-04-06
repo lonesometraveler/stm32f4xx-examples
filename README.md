@@ -8,6 +8,7 @@ You will find the follwoings in `examples`:
 
 - `timer_interrupt_1.rs`: Timer interrupt flips a `bool`. A LED gets flipped based on the bool in the main.
 - `timer_interrupt_2.rs`: Timer interrupt toggles a LED.
+- `gpio_interrupt_1.rs`: GPIO interrupts with two buttons. 
 
 I am planning to add more.
 
