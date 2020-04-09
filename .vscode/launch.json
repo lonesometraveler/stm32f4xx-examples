@@ -7,7 +7,7 @@
             "name": "Debug (J-Link)",
             "cwd": "${workspaceRoot}",
             // "executable": "./target/thumbv7em-none-eabihf/debug/f429-examples",
-            "executable": "./target/thumbv7em-none-eabihf/debug/examples/timer_interrupt_1",
+            "executable": "./target/thumbv7em-none-eabihf/debug/examples/gpio_interrupt_3",
             "servertype": "jlink",
             "device": "STM32F429ZI",
             "interface": "swd",
@@ -17,7 +17,7 @@
             "svdFile": "${workspaceRoot}/.vscode/STM32F429.svd",
             "swoConfig": {
                 "enabled": true,
-                "cpuFrequency": 8000000,
+                "cpuFrequency": 16000000,
                 "swoFrequency": 2000000,
                 "source": "probe",
                 "decoders": [
