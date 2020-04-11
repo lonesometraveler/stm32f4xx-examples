@@ -11,6 +11,8 @@ You will find the follwoings in `examples`:
 - `gpio_interrupt_1.rs`: GPIO interrupts with one button. 
 - `gpio_interrupt_2.rs`: GPIO interrupts with two buttons 1. 
 - `gpio_interrupt_3.rs`: GPIO interrupts with two buttons 2. 
+- `serial_1.rs`: Serial Echo.
+- `serial_interrupt_1.rs`: Serial Echo with interrupt.
 
 I am planning to add more.
 
