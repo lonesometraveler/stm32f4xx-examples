@@ -13,6 +13,7 @@ You will find the follwoings in `examples`:
 - `gpio_interrupt_3.rs`: GPIO interrupts with two buttons 2. 
 - `serial_1.rs`: Serial Echo.
 - `serial_interrupt_1.rs`: Serial Echo with interrupt.
+- `timer_counter_1.rs`: Pulse width reading with a timer. ([Maxbotix](https://www.maxbotix.com) Ultrasonic sensors demo)
 
 I am planning to add more.
 
