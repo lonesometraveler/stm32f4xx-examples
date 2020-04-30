@@ -14,6 +14,7 @@ You will find the follwoings in `examples`:
 - `serial_1.rs`: Serial Echo.
 - `serial_interrupt_1.rs`: Serial Echo with interrupt.
 - `timer_counter_1.rs`: Pulse width reading with a timer. ([Maxbotix](https://www.maxbotix.com) Ultrasonic sensors demo)
+- `adc_1.rs`: ADC reading and PWM output example.
 
 I am planning to add more.
 
