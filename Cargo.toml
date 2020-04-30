@@ -12,7 +12,7 @@ cortex-m-semihosting = "0.3.3"
 panic-halt = "0.2.0"
 
 [dependencies.stm32f4xx-hal]
-version = "0.7"
+version = "0.8"
 features = ["rt", "stm32f429"] # replace the model of your microcontroller here
 
 # this lets you use `cargo fix`!
