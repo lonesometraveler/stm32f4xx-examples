@@ -16,6 +16,7 @@ You will find the follwoings in `examples`:
 - `timer_counter_1.rs`: Pulse width reading with a timer. ([Maxbotix](https://www.maxbotix.com) Ultrasonic sensors demo)
 - `adc_1.rs`: ADC reading and PWM output example.
 - `adc_interrupt_1.rs`: ADC EOC End of Conversion Interrupt. An interrupt version of `adc_1.rs`.
+- `adc_interrupt_2.rs`: ADC External trigger. Injected Conversion Mode.
 
 I am planning to add more.
 

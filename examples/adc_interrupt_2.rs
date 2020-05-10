@@ -5,14 +5,15 @@ extern crate panic_halt;
 
 use core::cell::RefCell;
 use core::ops::DerefMut;
-use cortex_m::interrupt::{free, Mutex};
+use cortex_m::{
+    interrupt::{free, Mutex},
+    {iprintln, peripheral},
+};
 use cortex_m_rt::entry;
 use stm32f4xx_hal::{
     adc::{
-        config::AdcConfig,
-        config::Eoc,
-        config::{SampleTime, Sequence},
-        Adc,
+        config::AdcConfig, config::Eoc, config::ExternalTrigger, config::SampleTime,
+        config::Sequence, config::TriggerMode, Adc,
     },
     prelude::*,
     pwm, stm32,
@@ -20,22 +21,18 @@ use stm32f4xx_hal::{
 };
 
 static ADC: Mutex<RefCell<Option<Adc<stm32::ADC1>>>> = Mutex::new(RefCell::new(None));
-static PWM: Mutex<RefCell<Option<pwm::PwmChannels<stm32::TIM1, pwm::C1>>>> =
-    Mutex::new(RefCell::new(None));
+
+fn itm() -> &'static mut peripheral::itm::Stim {
+    unsafe { &mut (*peripheral::ITM::ptr()).stim[0] }
+}
 
 #[interrupt]
 fn ADC() {
     free(|cs| {
-        if let (Some(ref mut adc), Some(ref mut pwm)) = (
-            ADC.borrow(cs).borrow_mut().deref_mut(),
-            PWM.borrow(cs).borrow_mut().deref_mut(),
-        ) {
-            // Reading the result from the ADC_DR clears the EOC flag automatically.
+        if let Some(ref mut adc) = ADC.borrow(cs).borrow_mut().deref_mut() {
+            // Reading the result from ADC_DR clears the EOC flag automatically.
             let sample = adc.current_sample();
-            let scale = sample as f32 / 0x0FFF as f32;
-            pwm.set_duty((scale * pwm.get_max_duty() as f32) as u16);
-            // restart ADC conversion
-            adc.start_conversion();
+            iprintln!(itm(), "PA3: {}", sample);
         }
     });
 }
@@ -43,26 +40,29 @@ fn ADC() {
 #[entry]
 fn main() -> ! {
     let dp = stm32::Peripherals::take().unwrap();
+    let gpioa = dp.GPIOA.split();
     let rcc = dp.RCC.constrain();
     let clocks = rcc.cfgr.freeze();
-    let gpioa = dp.GPIOA.split();
 
     // Configure PWM
     let pa8 = gpioa.pa8.into_alternate_af1();
-    let mut pwm = pwm::tim1(dp.TIM1, pa8, clocks, 50.hz());
+    let mut pwm = pwm::tim1(dp.TIM1, pa8, clocks, 10.hz());
+    let max_duty = pwm.get_max_duty();
+    pwm.set_duty(max_duty / 2);
     pwm.enable();
 
     // Configure ADC
-    let config = AdcConfig::default().end_of_conversion_interrupt(Eoc::Conversion);
+    let config = AdcConfig::default()
+        .end_of_conversion_interrupt(Eoc::Conversion)
+        .external_trigger(TriggerMode::RisingEdge, ExternalTrigger::Tim_1_cc_1);
     let mut adc = Adc::adc1(dp.ADC1, true, config);
     let pa3 = gpioa.pa3.into_analog();
     adc.configure_channel(&pa3, Sequence::One, SampleTime::Cycles_112);
-    adc.start_conversion();
+    adc.enable();
 
-    // Move shared resources to Mutex
+    // Move the shared resource to Mutex
     free(|cs| {
         ADC.borrow(cs).replace(Some(adc));
-        PWM.borrow(cs).replace(Some(pwm));
     });
 
     // Enable interrupt
