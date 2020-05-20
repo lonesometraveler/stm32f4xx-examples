@@ -59,14 +59,6 @@ const APP: () = {
         let mut timer = Timer::tim2(cx.device.TIM2, 1.hz(), clocks);
         timer.listen(TimerEvent::TimeOut);
 
-        // Enable interrupts
-        stm32::NVIC::unpend(stm32::Interrupt::TIM2);
-        stm32::NVIC::unpend(stm32::Interrupt::USART3);
-        unsafe {
-            stm32::NVIC::unmask(stm32::Interrupt::TIM2);
-            stm32::NVIC::unmask(stm32::Interrupt::USART3);
-        }
-
         // Initialization of late resources
         init::LateResources {
             cons,
