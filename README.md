@@ -18,6 +18,7 @@ You will find the follwoings in `examples`:
 - `adc_interrupt_1.rs`: ADC EOC End of Conversion Interrupt. An interrupt version of `adc_1.rs`.
 - `adc_interrupt_2.rs`: ADC External trigger. Injected Conversion Mode.
 - `rtfm_1.rs`: [Real Time For the Masses (RTFM) framework](https://github.com/rtfm-rs/cortex-m-rtfm) + [BBQueue](https://github.com/jamesmunns/bbqueue) (SPSC, lockless, no_std, thread safe, queue) example.
+- `rtfm_2.rs`: [Real Time For the Masses (RTFM) framework](https://github.com/rtfm-rs/cortex-m-rtfm) example. 
 
 I am planning to add more.
 
