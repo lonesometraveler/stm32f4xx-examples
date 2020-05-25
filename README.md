@@ -19,6 +19,7 @@ You will find the follwoings in `examples`:
 - `adc_interrupt_2.rs`: ADC External trigger. Injected Conversion Mode.
 - `rtfm_1.rs`: [Real Time For the Masses (RTFM) framework](https://github.com/rtfm-rs/cortex-m-rtfm) + [BBQueue](https://github.com/jamesmunns/bbqueue) (SPSC, lockless, no_std, thread safe, queue) example.
 - `rtfm_2.rs`: [Real Time For the Masses (RTFM) framework](https://github.com/rtfm-rs/cortex-m-rtfm) example. LED toggle with Timer interrupt.
+- `rtfm_3.rs`: [Real Time For the Masses (RTFM) framework](https://github.com/rtfm-rs/cortex-m-rtfm) example. Software task scheduling + UART interrupt.
 
 I am planning to add more.
 
