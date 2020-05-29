@@ -69,7 +69,7 @@ const APP: () = {
         }
     }
 
-    // UART interrupt, write to the queue
+    // UART interrupt, read from the RX buffer and write to the queue
     #[task(binds = USART3, resources = [prod, rx])]
     fn usart3(cx: usart3::Context) {
         match block!(cx.resources.rx.read()) {
@@ -85,7 +85,7 @@ const APP: () = {
         }
     }
 
-    // Timer interrupt, read the currently available data from the queue
+    // Timer interrupt, read the currently available data from the queue and write to the TX buffer
     #[task(binds = TIM2, resources = [timer, cons, tx])]
     fn tim2(cx: tim2::Context) {
         cx.resources.timer.clear_interrupt(TimerEvent::TimeOut);
