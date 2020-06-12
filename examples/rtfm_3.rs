@@ -3,8 +3,8 @@
 #![no_main]
 #![no_std]
 
-use rtfm::cyccnt::{Instant, U32Ext};
-
+use rtfm::cyccnt::U32Ext;
+use cortex_m::{iprintln, peripheral};
 extern crate panic_halt;
 use bbqueue::{consts::*, BBBuffer, ConstBBBuffer, Consumer, Producer};
 extern crate stm32f4xx_hal as hal;
@@ -30,7 +30,9 @@ const APP: () = {
     #[init(schedule = [tx_write])]
     fn init(cx: init::Context) -> init::LateResources {
         // Schedule a task
-        cx.schedule.tx_write(Instant::now() + PERIOD.cycles()).unwrap();
+        cx.schedule
+            .tx_write(cx.start + PERIOD.cycles())
+            .unwrap();
 
         // Split bbqueue Producer and Consumer
         let (prod, cons) = BB.try_split().unwrap();
@@ -55,25 +57,6 @@ const APP: () = {
         init::LateResources { cons, prod, tx, rx }
     }
 
-    #[task(schedule = [tx_write], resources = [cons, tx])]
-    fn tx_write(cx: tx_write::Context) {
-        // Reschedule a task
-        cx.schedule.tx_write(cx.scheduled + PERIOD.cycles()).unwrap();
-
-        let rgr = match cx.resources.cons.read() {
-            Ok(it) => it,
-            _ => return,
-        };
-        
-        rgr.buf()
-            .iter()
-            .for_each(|&byte| block!(cx.resources.tx.write(byte)).unwrap());
-
-        // Release the space for later writes
-        let len = rgr.len();
-        rgr.release(len);
-    }
-
     #[task(binds = USART3, resources = [prod, rx])]
     fn usart3(cx: usart3::Context) {
         match block!(cx.resources.rx.read()) {
@@ -85,6 +68,27 @@ const APP: () = {
             }
             _ => (),
         }
+    }
+
+    #[task(schedule = [tx_write], resources = [cons, tx])]
+    fn tx_write(cx: tx_write::Context) {
+        // Reschedule a task
+        cx.schedule
+            .tx_write(cx.scheduled + PERIOD.cycles())
+            .unwrap();
+
+        let rgr = match cx.resources.cons.read() {
+            Ok(it) => it,
+            _ => return,
+        };
+
+        rgr.buf()
+            .iter()
+            .for_each(|&byte| block!(cx.resources.tx.write(byte)).unwrap());
+
+        // Release the space for later writes
+        let len = rgr.len();
+        rgr.release(len);
     }
 
     // This is required for the software task fn tx_write()
