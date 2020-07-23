@@ -22,7 +22,7 @@ fn itm() -> &'static mut peripheral::itm::Stim {
     unsafe { &mut (*peripheral::ITM::ptr()).stim[0] }
 }
 
-#[rtfm::app(device = hal::stm32, peripherals = true)]
+#[rtic::app(device = hal::stm32, peripherals = true)]
 const APP: () = {
     struct Resources {
         cons: Consumer<'static, U1024>,

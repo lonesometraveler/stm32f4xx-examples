@@ -3,8 +3,7 @@
 #![no_main]
 #![no_std]
 
-use rtfm::cyccnt::U32Ext;
-use cortex_m::{iprintln, peripheral};
+use rtic::cyccnt::U32Ext;
 extern crate panic_halt;
 use bbqueue::{consts::*, BBBuffer, ConstBBBuffer, Consumer, Producer};
 extern crate stm32f4xx_hal as hal;
@@ -18,7 +17,7 @@ use hal::{
 static BB: BBBuffer<U1024> = BBBuffer(ConstBBBuffer::new());
 const PERIOD: u32 = 16_000_000;
 
-#[rtfm::app(device = hal::stm32, peripherals = true, monotonic = rtfm::cyccnt::CYCCNT)]
+#[rtic::app(device = hal::stm32, peripherals = true, monotonic = rtic::cyccnt::CYCCNT)]
 const APP: () = {
     struct Resources {
         cons: Consumer<'static, U1024>,
@@ -94,6 +93,6 @@ const APP: () = {
     // This is required for the software task fn tx_write()
     // This can be any interrupt not used by hardware
     extern "C" {
-        fn USART1();
+        fn TIM2();
     }
 };

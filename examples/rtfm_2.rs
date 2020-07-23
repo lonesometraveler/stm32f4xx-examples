@@ -12,7 +12,7 @@ use hal::{
     timer::{Event, Timer},
 };
 
-#[rtfm::app(device = hal::stm32, peripherals = true)]
+#[rtic::app(device = hal::stm32, peripherals = true)]
 const APP: () = {
     struct Resources {
         led: PB7<Output<PushPull>>,
