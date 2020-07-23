@@ -17,9 +17,9 @@ You will find the follwoings in `examples`:
 - `adc_1.rs`: ADC reading and PWM output example.
 - `adc_interrupt_1.rs`: ADC EOC End of Conversion Interrupt. An interrupt version of `adc_1.rs`.
 - `adc_interrupt_2.rs`: ADC External trigger. Injected Conversion Mode.
-- `rtfm_1.rs`: [Real Time For the Masses (RTFM) framework](https://github.com/rtfm-rs/cortex-m-rtfm) + [BBQueue](https://github.com/jamesmunns/bbqueue) (SPSC, lockless, no_std, thread safe, queue) example.
-- `rtfm_2.rs`: [Real Time For the Masses (RTFM) framework](https://github.com/rtfm-rs/cortex-m-rtfm) example. LED toggle with Timer interrupt.
-- `rtfm_3.rs`: [Real Time For the Masses (RTFM) framework](https://github.com/rtfm-rs/cortex-m-rtfm) example. Software task scheduling + UART interrupt.
+- `rtfm_1.rs`: [Real-Time Interrupt-driven Concurrency (RTIC) framework](https://github.com/rtic-rs/cortex-m-rtic) + [BBQueue](https://github.com/jamesmunns/bbqueue) (SPSC, lockless, no_std, thread safe, queue) example.
+- `rtfm_2.rs`: [Real-Time Interrupt-driven Concurrency (RTIC) framework](https://github.com/rtic-rs/cortex-m-rtic) example. LED toggle with Timer interrupt.
+- `rtfm_3.rs`: [Real-Time Interrupt-driven Concurrency (RTIC) framework](https://github.com/rtic-rs/cortex-m-rtic) example. Software task scheduling + UART interrupt.
 
 I am planning to add more.
 
